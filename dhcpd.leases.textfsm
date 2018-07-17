@@ -1,0 +1,27 @@
+Value IPAddress (\S+)
+Value StartsData (\d+\s+\d+\/\d+\/\d+\s+\S+)
+Value EndsData (\d+\s+\d+\/\d+\/\d+\s+\S+)
+Value TstpData (\d+\s+\d+\/\d+\/\d+\s+\S+)
+Value TsfpData (\d+\s+\d+\/\d+\/\d+\s+\S+)
+Value AtsfpData (\d+\s+\d+\/\d+\/\d+\s+\S+)
+Value ClttData (\d+\s+\d+\/\d+\/\d+\s+\S+)
+Value BindingState (\S+)
+Value MacAddr (\S+)
+Value Uid (\S+)
+Value Hostname (\S+)
+
+Start
+  ^lease\s+${IPAddress}\s+\{ -> RELease
+
+RELease
+  ^\s+starts\s+${StartsData};
+  ^\s+ends\s+${EndsData};
+  ^\s+tstp\s+${TstpData};
+  ^\s+tsfp\s+${TsfpData};
+  ^\s+atsfp\s+${AtsfpData};
+  ^\s+cltt\s+${ClttData};
+  ^\s+binding\s+state\s+${BindingState};
+  ^\s+hardware\s+ethernet\s+${MacAddr};
+  ^\s+uid\s+"${Uid}";
+  ^\s+client\-hostname\s+"${Hostname}";
+  ^\} -> Next.Record Start
