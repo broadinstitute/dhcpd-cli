@@ -12,12 +12,17 @@ fi
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/.venv/bin/activate"
 
-pushd "${SCRIPT_DIR}" > /dev/null
-pushd "data" > /dev/null
+pushd "${SCRIPT_DIR}" > /dev/null || exit 2
+
+pushd "data" > /dev/null || exit 2
+
 sudo scp ala:/var/db/dhcpd/dhcpd.leases .
-popd > /dev/null
+
+popd > /dev/null || exit 2
+
 ./howmany_guest.py -f data/dhcpd.leases
-popd > /dev/null
+
+popd > /dev/null || exit 2
 
 deactivate
 
